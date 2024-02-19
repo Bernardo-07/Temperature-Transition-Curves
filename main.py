@@ -3,6 +3,14 @@ import numpy as np
 from scipy.optimize import least_squares
 import csv
 
+def function(T, DBTT, C, D):
+    US = 86 #-> input
+    LS = 20 #-> input
+    A = (LS + US)/2
+    B = (US - LS)/2
+    arg = (T - DBTT)/(C + (D*T))
+    return A + B*np.tanh(arg)
+
 data = '4340 34 10x10 - KV8.csv'
 temperature = []
 y = []
