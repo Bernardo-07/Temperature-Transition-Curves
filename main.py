@@ -11,6 +11,12 @@ def function(T, DBTT, C, D):
     arg = (T - DBTT)/(C + (D*T))
     return A + B*np.tanh(arg)
 
+def erro(params, temperature, y):
+    #calcula a diferença (ou erro) entre os dados observados e calculados
+    DBTT, C, D = params
+    Kv = function(temperature, DBTT, C, D)
+    return y - Kv
+
 data = '4340 34 10x10 - KV8.csv'
 temperature = []
 y = []
@@ -26,3 +32,13 @@ with open(data, mode='r') as file: #abre o arquivo no modo leitura
 
 print(temperature)
 print(y)
+
+#método de mínimos quadrados para achar o melhor valor para os parametros DBTT, C e D
+for i in range(0, len(y)):
+    initial_params = [-85, 35, 0.0256] #chute inicial
+    result = least_squares(erro, initial_params, args=(temperature[i], y[i]))
+    DBTT, C, D = result.x
+
+print(DBTT)
+print(C)
+print(D)
