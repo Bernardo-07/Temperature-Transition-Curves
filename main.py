@@ -30,14 +30,10 @@ with open(data, mode='r') as file: #abre o arquivo no modo leitura
         y.append(float(line[1]))
         #extrai os dados transformanddo em float
 
-print(temperature)
-print(y)
-
 #método de mínimos quadrados para achar o melhor valor para os parametros DBTT, C e D
-for i in range(0, len(y)):
-    initial_params = [-85, 35, 0.0256] #chute inicial
-    result = least_squares(erro, initial_params, args=(temperature[i], y[i]))
-    DBTT, C, D = result.x
+initial_params = [-85, 35, 0.0256] #chute inicial
+result = least_squares(erro, initial_params, args=(np.array(temperature), np.array(y)))
+DBTT, C, D = result.x
 
 print(DBTT)
 print(C)
