@@ -38,3 +38,10 @@ DBTT, C, D = result.x
 print(DBTT)
 print(C)
 print(D)
+
+Kv = [None] * len(y)
+for i in range(0, len(y)):
+    Kv[i] = function(temperature[i], DBTT, C, D)
+
+plt.plot(temperature, Kv)
+plt.show()
