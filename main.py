@@ -21,6 +21,13 @@ data = '4340 34 10x10 - KV8.csv'
 temperature = []
 y = []
 
+for i in range(0, len(temperature)):
+    for j in range(0, len(temperature)-i-1):
+        if temperature[j] > temperature[j+1]:
+            # Trocar os elementos se estiverem fora de ordem
+            temperature[j], temperature[j+1] = temperature[j+1], temperature[j]
+            y[j], y[j+1] = y[j+1], y[j]
+
 with open(data, mode='r') as file: #abre o arquivo no modo leitura
     file_csv = csv.reader(file) #cria uma variável para receber a leitura do arquivo
     next(file_csv) #pula o cabeçalho
