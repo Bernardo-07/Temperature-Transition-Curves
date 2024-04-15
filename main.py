@@ -1,21 +1,28 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import least_squares
+from tkinter import filedialog
 import csv
 
 def function(T, DBTT, C, D):
-    US = 86 #-> input
-    LS = 20 #-> input
+    US = 86.5 #float(input("\nDigite o valor do limite superior: "))
+    LS = 20 #float(input("Digite o valor do limite inferior: "))
     A = (LS + US)/2
     B = (US - LS)/2
     arg = (T - DBTT)/(C + (D*T))
     return A + B*np.tanh(arg)
 
-def erro(params, temperature, y):
+def error(params, temperature, y, US, LS):
     #calcula a diferença (ou erro) entre os dados observados e calculados
     DBTT, C, D = params
-    Kv = function(temperature, DBTT, C, D)
+    Kv = function(temperature, DBTT, C, D, US, LS)
     return y - Kv
+
+def choose_file():
+    file_path = filedialog.askopenfilename(title="Selecione o Arquivo", filetypes=[("Arquivos CSV", "*.csv")])
+    return file_path
+
+data = choose_file()
 
 data = '4340 34 10x10 - KV8.csv'
 temperature = []
@@ -37,9 +44,14 @@ for i in range(0, len(temperature)):
             temperature[j], temperature[j+1] = temperature[j+1], temperature[j]
             y[j], y[j+1] = y[j+1], y[j]
 
+print("\nDigite o valor do chute inicial para os seguintes parâmetros")
+DBTT = float(input("DBTT: "))
+C = float(input("C: "))
+D = float(input("D: "))
+
 #método de mínimos quadrados para achar o melhor valor para os parametros DBTT, C e D
-initial_params = [-85, 35, 0.0256] #chute inicial
-result = least_squares(erro, initial_params, args=(np.array(temperature), np.array(y)))
+initial_params = [DBTT, C, D]#[-85, 35, 0.0256] #chute inicial -> input
+result = least_squares(error, initial_params, args=(np.array(temperature), np.array(y)))
 DBTT, C, D = result.x
 
 print(DBTT)
