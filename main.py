@@ -4,9 +4,9 @@ from scipy.optimize import least_squares
 from tkinter import filedialog
 import csv
 
-def function(T, DBTT, C, D):
-    US = 86.5 #float(input("\nDigite o valor do limite superior: "))
-    LS = 20 #float(input("Digite o valor do limite inferior: "))
+def function(T, DBTT, C, D, US, LS):
+    #US = 86.5 input
+    #LS = 20 input
     A = (LS + US)/2
     B = (US - LS)/2
     arg = (T - DBTT)/(C + (D*T))
@@ -49,9 +49,13 @@ DBTT = float(input("DBTT: "))
 C = float(input("C: "))
 D = float(input("D: "))
 
+US = float(input("Upper Shelf: "))
+LS = float(input("Lower Shelf: "))
+
+
 #método de mínimos quadrados para achar o melhor valor para os parametros DBTT, C e D
-initial_params = [DBTT, C, D]#[-85, 35, 0.0256] #chute inicial -> input
-result = least_squares(error, initial_params, args=(np.array(temperature), np.array(y)))
+initial_params = [DBTT, C, D] #[-85, 35, 0.0256] -> chute inicial 
+result = least_squares(error, initial_params, args=(np.array(temperature), np.array(y), np.array(US), np.array(LS)))
 DBTT, C, D = result.x
 
 print(DBTT)
@@ -60,7 +64,7 @@ print(D)
 
 Kv = [None] * len(y)
 for i in range(0, len(y)):
-    Kv[i] = function(temperature[i], DBTT, C, D)
+    Kv[i] = function(temperature[i], DBTT, C, D, US, LS)
 
 plt.title('Gráfico da Tangente Hiperbólica Assimétrica')
 plt.scatter(temperature, y, color="r", marker="D")
