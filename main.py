@@ -24,7 +24,6 @@ def choose_file():
 
 data = choose_file()
 
-data = '4340 34 10x10 - KV8.csv'
 temperature = []
 y = []
 
@@ -73,4 +72,19 @@ plt.xlabel('T (°C)')
 plt.ylabel('Kv (J)')
 plt.text(50, 20, f'DBTT = {DBTT:.2f}\nC = {C:.2f}\nD = {D:.4f}', ha='center', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6'))
 plt.grid(True)
+
+bool = input("Deseja salvar o gráfico? (sim/nao): ")
+
+if bool == 'sim' or 's':
+    
+    file_path2 = filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")])
+    plt.savefig(file_path2)
+    print("Gráfico salvo")
+
+elif bool == 'não' or 'nao' or 'n':
+    print("Gráfico não foi salvo")
+
+else:
+    print("Resposta inválida")
+
 plt.show()
