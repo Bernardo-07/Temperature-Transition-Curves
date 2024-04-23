@@ -37,7 +37,13 @@ def plot(temperature, y, y_fit, aux):
         plt.ylabel('LE (mm)')
     elif aux == 3:
         plt.ylabel('SFA (%)')
-    plt.text(50, 20, f'DBTT = {DBTT:.2f}\nC = {C:.2f}\nD = {D:.4f}', ha='center', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6'))
+
+    x_max = max(temperature)
+    y_max = max(max(y), max(y_fit))
+    legend_x = x_max * 0.7
+    legend_y = y_max * 0.2
+
+    plt.text(legend_x, legend_y , f'DBTT = {DBTT:.2f}\nC = {C:.2f}\nD = {D:.4f}', ha='center', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6'))
     plt.grid(True)
 
 data = choose_file()
