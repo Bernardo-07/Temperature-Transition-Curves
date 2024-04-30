@@ -28,22 +28,30 @@ def save_file():
 
 def plot(temperature, y, y_fit, aux):
     plt.title('Gráfico da Tangente Hiperbólica Assimétrica')
-    plt.scatter(temperature, y, color="r", marker="D")
-    plt.plot(temperature, y_fit)
-    plt.xlabel('T (°C)')
+    plt.scatter(temperature, y, color="r", marker="o", edgecolor='black')
+    plt.plot(temperature, y_fit, color="b")
+    
+    plt.xlabel('Temperature (°C)')
     if aux == 1:
         plt.ylabel('Kv (J)')
     elif aux == 2:
         plt.ylabel('LE (mm)')
     elif aux == 3:
         plt.ylabel('SFA (%)')
+        
+    plt.xlim(-200, 100) 
+    plt.ylim(0, 100)
+    #intersec = np.interp(DBTT, temperature, y)
+    intersec = function(DBTT, DBTT, C, D, US, LS)
+    plt.plot([DBTT, DBTT], [0, intersec], 'k--', lw=1, label = 'DBTT') #[xi, xf], [yi, yf]
 
-    x_max = max(temperature)
+    '''x_max = max(temperature)
     y_max = max(max(y), max(y_fit))
     legend_x = x_max * 0.7
     legend_y = y_max * 0.2
-
-    plt.text(legend_x, legend_y , f'DBTT = {DBTT:.2f}\nC = {C:.2f}\nD = {D:.4f}', ha='center', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6'))
+    plt.text(legend_x, legend_y , f'DBTT = {DBTT:.2f}\nC = {C:.2f}\nD = {D:.4f}', ha='center', bbox=dict(facecolor='white', edgecolor='black', boxstyle='round,pad=0.6'))'''
+    
+    plt.legend(loc='upper left', edgecolor='black')
     plt.grid(True)
 
 data = choose_file()
@@ -66,6 +74,8 @@ for i in range(0, len(temperature)):
             # Trocar os elementos se estiverem fora de ordem
             temperature[j], temperature[j+1] = temperature[j+1], temperature[j]
             y[j], y[j+1] = y[j+1], y[j]
+            
+aux = int(input("\nEscolha um dos seguintes parâmetros para o eixo das ordenadas:\n1 - Kv (J)\n2 - LE (mm)\n3 - SFA (%)\nDigite o número associado: "))
 
 print("\nDigite o valor do chute inicial para os seguintes parâmetros")
 DBTT = float(input("DBTT: "))
@@ -85,8 +95,6 @@ print("\n")
 print(DBTT)
 print(C)
 print(D)
-
-aux = int(input("\nEscolha um dos seguintes parâmetros para o eixo das ordenadas:\n1 - Kv (J)\n2 - LE (mm)\n3 - SFA (%)\nDigite o número associado: "))
 
 y_fit = [None] * len(y)
 for i in range(0, len(y)):
