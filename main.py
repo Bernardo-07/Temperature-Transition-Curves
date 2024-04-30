@@ -29,18 +29,20 @@ def save_file():
 def plot(temperature, y, y_fit, aux):
     plt.title('Gráfico da Tangente Hiperbólica Assimétrica')
     plt.scatter(temperature, y, color="r", marker="o", edgecolor='black')
-    plt.plot(temperature, y_fit, color="b")
+    plt.plot(temperature, y_fit, color="black")
     
+    plt.xlim(-200, 100) 
     plt.xlabel('Temperature (°C)')
     if aux == 1:
         plt.ylabel('Kv (J)')
+        plt.ylim(0, 100)
     elif aux == 2:
         plt.ylabel('LE (mm)')
+        plt.ylim(0, 2.5)
     elif aux == 3:
         plt.ylabel('SFA (%)')
-        
-    plt.xlim(-200, 100) 
-    plt.ylim(0, 100)
+        plt.ylim(0, 100) 
+    
     #intersec = np.interp(DBTT, temperature, y)
     intersec = function(DBTT, DBTT, C, D, US, LS)
     plt.plot([DBTT, DBTT], [0, intersec], 'k--', lw=1, label = 'DBTT') #[xi, xf], [yi, yf]
