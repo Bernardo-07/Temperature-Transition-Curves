@@ -31,6 +31,9 @@ def plot(temperature, y, y_fit, aux):
     plt.scatter(temperature, y, color="r", marker="o", edgecolor='black')
     plt.plot(temperature, y_fit, color="black")
     
+    param = plt.FuncFormatter(lambda temperature, _: '{:g}'.format(temperature).replace('.', ','))
+    plt.gca().yaxis.set_major_formatter(formatter= param)
+    
     plt.xlim(-200, 100) 
     plt.xlabel('Temperature (°C)')
     if aux == 1:
@@ -42,8 +45,7 @@ def plot(temperature, y, y_fit, aux):
     elif aux == 3:
         plt.ylabel('SFA (%)')
         plt.ylim(0, 100) 
-    
-    #intersec = np.interp(DBTT, temperature, y)
+
     intersec = function(DBTT, DBTT, C, D, US, LS)
     plt.plot([DBTT, DBTT], [0, intersec], 'k--', lw=1, label = 'DBTT') #[xi, xf], [yi, yf]
 
